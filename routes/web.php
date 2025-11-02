@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\InvoicesController;
+use App\Http\Controllers\SectionsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,5 +21,9 @@ Route::get('/', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';
+
+
+Route::resource('invoices', InvoicesController::class);
+Route::resource('sections', SectionsController::class);
 
 Route::get('/{page}', [AdminController::class, 'index']);

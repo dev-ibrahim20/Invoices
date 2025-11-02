@@ -46,7 +46,7 @@
                             d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z" />
                     </svg><span class="side-menu__label">Invoice</span><i class="angle fe fe-chevron-down"></i></a>
                 <ul class="slide-menu">
-                    <li><a class="slide-item" href="{{ url('/' . $page = 'chart-morris') }}">inovices List</a></li>
+                    <li><a class="slide-item" href="{{ url('/' . $page = 'invoices') }}">inovices List</a></li>
                     <li><a class="slide-item" href="{{ url('/' . $page = 'chart-flot') }}">inovices paid</a></li>
                     <li><a class="slide-item" href="{{ url('/' . $page = 'chart-chartjs') }}">inovices unpaid</a></li>
                     <li><a class="slide-item" href="{{ url('/' . $page = 'chart-echart') }}">inovices part paid</a></li>
@@ -110,8 +110,8 @@
                         </g>
                     </svg><span class="side-menu__label">Setteing</span><i class="angle fe fe-chevron-down"></i></a>
                 <ul class="slide-menu">
-                    <li><a class="slide-item" href="{{ url('/' . $page = 'profile') }}">Add Category</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . $page = 'editprofile') }}">Add Product</a></li>
+                    <li><a class="slide-item" href="{{ url('/' . $page = 'sections') }}">Categories</a></li>
+                    <li><a class="slide-item" href="{{ url('/' . $page = 'editprofile') }}">Products</a></li>
                 </ul>
             </li>
         </ul>
