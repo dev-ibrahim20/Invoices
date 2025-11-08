@@ -75,7 +75,7 @@ Sections - Invoices Program
                                     href="#modaldemo8">Add Section</a>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="example1" class="table key-buttons text-md-nowrap">
+                                <table id="example1" class="table key-buttons text-md-nowrap" data-page-length="50">
                                     <thead>
                                         <tr>
                                             <th class="border-bottom-0">#</th>
@@ -241,6 +241,8 @@ Sections - Invoices Program
         <script src="{{URL::asset('assets/plugins/select2/js/select2.min.js')}}"></script>
         <!-- Internal Modal js-->
         <script src="{{URL::asset('assets/js/modal.js')}}"></script>
+        <!-- Internal Prism js-->
+        <script src="{{ URL::asset('assets/plugins/prism/prism.js') }}"></script>
 
         <script>
             $('#exampleModal2').on('show.bs.modal', function (event) {
