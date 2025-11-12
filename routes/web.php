@@ -25,6 +25,8 @@ require __DIR__ . '/auth.php';
 
 
 Route::resource('invoices', InvoicesController::class);
+Route::get('/section/{id}', [InvoicesController::class, 'getproducts']);
+
 Route::resource('sections', SectionsController::class);
 Route::resource('products', ProductsController::class);
 
