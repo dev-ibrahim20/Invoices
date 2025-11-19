@@ -14,12 +14,15 @@ class CreateInvoicesTable extends Migration
     public function up()
     {
         Schema::create('invoices', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('invoice_number');
             $table->date('invoice_Date');
             $table->date('Due_date');
             $table->string('product');
-            $table->integer('section_id');
+            $table->unsignedBigInteger('section_id');
+            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
+            $table->decimal('Amount_collection', 8, 2);
+            $table->decimal('Amount_Commission', 8, 2);
             $table->string('discount');
             $table->string('rate_vat');
             $table->decimal('value_vat', 8, 2);

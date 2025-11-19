@@ -4,12 +4,14 @@
 @stop
 @section('css')
     <!-- Internal Data table css -->
-    <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
-    <link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
-    <link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
+    <link href="{{ URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" />
+    <link href="{{ URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
+    <!--Internal   Notify -->
+    <link href="{{ URL::asset('assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
@@ -34,12 +36,11 @@
                                 <h4 class="card-title mg-b-0">Invoices Table</h4>
                                 <i class="mdi mdi-dots-horizontal text-gray"></i>
                             </div>
-                            <a href="invoices/create" class="modal-effect btn btn-sm btn-primary" style="color:white"><i
+                            <a href="invoices/create" class="modal-effect btn btn-md btn-primary" style="color:white"><i
                                     class="fas fa-plus"></i>&nbsp; Add Invoice</a>
-                            </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table id="example" class="table key-buttons text-md-nowrap">
+                            <table id="example" class="table key-buttons text-md-nowrap" data-page-length='50' style="text-align: center">
                                         <thead>
                                             <tr>
                                                 <th class="border-bottom-0">#</th>
@@ -54,25 +55,71 @@
                                                 <th class="border-bottom-0">Total</th>
                                                 <th class="border-bottom-0">Status</th>
                                                 <th class="border-bottom-0">Notes</th>
+                                                <th class="border-bottom-0">Actions</th>
                                                 <th class="border-bottom-0">#</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>System Architect</td>
-                                                <td>Edinburgh</td>
-                                                <td>61</td>
-                                                <td>2011/04/25</td>
-                                                <td>$320,800</td>
-                                                <td>$320,800</td>
-                                                <td>$320,800</td>
-                                                <td>$320,800</td>
-                                                <td>$320,800</td>
-                                                <td>$320,800</td>
-                                                <td>Notes</td>
-                                                <td>#</td>
-                                            </tr>
+                                                @foreach ($invoices as $invoice)
+                                                    <tr>
+                                                            <td>{{$loop->iteration}}</td>
+                                                            <td>{{ $invoice->invoice_number }} </td>
+                                                            <td>{{ $invoice->invoice_Date }}</td>
+                                                            <td>{{ $invoice->Due_date }}</td>
+                                                            <td>{{ $invoice->product }}</td>
+                                                            <td><a
+                                                                    href="{{ url('InvoicesDetails') }}/{{ $invoice->id }}">{{ $invoice->section->section_name }}</a>
+                                                            </td>
+                                                            <td>{{ $invoice->discount }}</td>
+                                                            <td>{{ $invoice->rate_vat }}</td>
+                                                            <td>{{ $invoice->value_vat }}</td>
+                                                            <td>{{ $invoice->total }}</td>
+                                                            <td>
+                                                                @if ($invoice->value_Status == 1)
+                                                                    <span class="text-success">{{ $invoice->status }}</span>
+                                                                @elseif($invoice->value_Status == 2)
+                                                                    <span class="text-danger">{{ $invoice->status }}</span>
+                                                                @else
+                                                                    <span class="text-warning">{{ $invoice->status }}</span>
+                                                                @endif
+
+                                                            </td>
+
+                                                            <td>{{ $invoice->note }}</td>
+                                                            <td>
+                                                                <div class="dropdown">
+                                                                    <button aria-expanded="false" aria-haspopup="true"
+                                                                        class="btn ripple btn-primary btn-sm" data-toggle="dropdown"
+                                                                        type="button">العمليات<i class="fas fa-caret-down ml-1"></i></button>
+                                                                    <div class="dropdown-menu tx-13">
+                                                                        <a class="dropdown-item"
+                                                                            href=" {{ url('edit_invoice') }}/{{ $invoice->id }}">تعديل
+                                                                            الفاتورة</a>
+
+                                                                        <a class="dropdown-item" href="#" data-invoice_id="{{ $invoice->id }}"
+                                                                            data-toggle="modal" data-target="#delete_invoice"><i
+                                                                                class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف
+                                                                            الفاتورة</a>
+                                                                        <a class="dropdown-item" href="#"><i
+                                                                                class=" text-success fas                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            fa-money-bill"></i>&nbsp;&nbsp;تغير
+                                                                            حالةالدفع
+                                                                        </a>
+                                                                        <a class="dropdown-item" href="#" data-invoice_id="{{ $invoice->id }}" data-toggle="modal"
+                                                                            data-target="#Transfer_invoice"><i class="text-warning fas fa-exchange-alt"></i>&nbsp;&nbsp;نقل الي
+                                                                        الارشيف</a>
+                                                                        <a class="dropdown-item" href="Print_invoice/{{ $invoice->id }}"><i
+                                                                                class="text-success fas fa-print"></i>&nbsp;&nbsp;طباعة
+                                                                            الفاتورة
+                                                                        </a>
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </td>
+                                                            <td>#</td>
+                                                        </tr>
+                                                @endforeach
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -92,22 +139,46 @@
 @endsection
 @section('js')
     <!-- Internal Data tables -->
-    <script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.dataTables.min.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/datatable/js/responsive.dataTables.min.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/datatable/js/jszip.min.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/datatable/js/pdfmake.min.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/datatable/js/vfs_fonts.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.dataTables.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/responsive.dataTables.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/jquery.dataTables.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/jszip.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/pdfmake.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/vfs_fonts.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/buttons.print.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js') }}"></script>
     <!--Internal  Datatable js -->
-    <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
+    <script src="{{ URL::asset('assets/js/table-data.js') }}"></script>
+    <!--Internal  Notify js -->
+    <script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>
+
+    <script>
+        $('#delete_invoice').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var invoice_id = button.data('invoice_id')
+            var modal = $(this)
+            modal.find('.modal-body #invoice_id').val(invoice_id);
+        })
+
+    </script>
+
+    <script>
+        $('#Transfer_invoice').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var invoice_id = button.data('invoice_id')
+            var modal = $(this)
+            modal.find('.modal-body #invoice_id').val(invoice_id);
+        })
+
+
+        </script>
 @endsection
