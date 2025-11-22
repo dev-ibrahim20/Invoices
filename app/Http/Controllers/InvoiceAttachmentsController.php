@@ -35,7 +35,24 @@ class InvoiceAttachmentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'file_name' => 'mimes:pdf,png,jpg,jpeg',
+        ],[
+            'file_name.mimes' => 'يجب ان تكون الصيغة pdf,png,jpg,jpeg',
+        ]);
+
+        $file = $request->file('file_name');
+        $file_name = $file->getClientOriginalName();
+        $file->move(public_path('attachments/' . $request->invoice_number), $file_name);
+
+        $invoice_attachment = new invoice_attachments();
+        $invoice_attachment->invoice_number  = $request->invoice_number;
+        $invoice_attachment->invoice_id = $request->invoice_id;
+        $invoice_attachment->Created_by = auth()->user()->name;
+        $invoice_attachment->file_name = $file_name;
+        $invoice_attachment->save();
+        session()->flash('success', 'File uploaded successfully');
+        return redirect()->back();
     }
 
     /**

@@ -118,9 +118,11 @@ class InvoicesController extends Controller
      * @param  \App\Models\invoices  $invoices
      * @return \Illuminate\Http\Response
      */
-    public function edit(invoices $invoices)
+    public function edit($id)
     {
-        //
+        $invoices = invoices::where('id', $id)->first();
+        $sections = sections::all();
+        return view('invoices.edit_invoices', compact('invoices', 'sections'));
     }
 
     /**
@@ -130,9 +132,12 @@ class InvoicesController extends Controller
      * @param  \App\Models\invoices  $invoices
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, invoices $invoices)
+    public function update(Request $request)
     {
-        //
+        $invoices = invoices::findOrFail($request->invoice_id);
+        $invoices->update($request->all());
+        session()->flash('edit', 'تم تعديل الفاتورة بنجاح');
+        return redirect()->route('invoices.index');
     }
 
     /**

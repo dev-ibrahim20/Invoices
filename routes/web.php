@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\InvoiceAttachmentsController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\InvoicesDetailsController;
 use App\Http\Controllers\ProductsController;
@@ -26,9 +27,15 @@ require __DIR__ . '/auth.php';
 
 
 Route::resource('invoices', InvoicesController::class);
-Route::get('/section/{id}', [InvoicesController::class, 'getproducts']);
-Route::get('/InvoicesDetails/{id}', [InvoicesDetailsController::class, 'index']);
+Route::get('/edit_invoices/{id}', [InvoicesController::class, 'edit']);
+Route::post('/edit_invoices/{id}', [InvoicesController::class, 'update']);
 
+
+Route::get('/section/{id}', [InvoicesController::class, 'getproducts']);
+
+Route::resource('InvoiceAttachments', InvoiceAttachmentsController::class);
+
+Route::get('/InvoicesDetails/{id}', [InvoicesDetailsController::class, 'index']);
 Route::get('/View_file/{invoice_number}/{file_name}', [InvoicesDetailsController::class, 'View_file']);
 Route::get('/download/{invoice_number}/{file_name}', [InvoicesDetailsController::class, 'download']);
 Route::post('/delete_file', [InvoicesDetailsController::class,'destroy'])->name('delete_file');

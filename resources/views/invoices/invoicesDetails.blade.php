@@ -47,6 +47,15 @@
         </div>
     @endif
 
+        @if (session()->has('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{ session()->get('success') }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+
 
 
     @if (session()->has('delete'))
@@ -200,7 +209,7 @@
                                                     <div class="card-body">
                                                         <p class="text-danger">* صيغة المرفق pdf, jpeg ,.jpg , png </p>
                                                         <h5 class="card-title">اضافة مرفقات</h5>
-                                                        <form method="POSt" action="{{ url('/InvoiceAttachments') }}"
+                                                        <form method="POST" action="{{ url('/InvoiceAttachments') }}"
                                                             enctype="multipart/form-data">
                                                             {{ csrf_field() }}
                                                             <div class="custom-file">

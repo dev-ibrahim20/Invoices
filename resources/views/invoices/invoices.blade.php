@@ -25,6 +25,17 @@
 				<!-- breadcrumb -->
 @endsection
 @section('content')
+
+
+        @if (session()->has('edit'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{ session()->get('edit') }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        @endif
+
         <div>
             <!-- row -->
             <div class="row">
@@ -93,7 +104,7 @@
                                                                         type="button">العمليات<i class="fas fa-caret-down ml-1"></i></button>
                                                                     <div class="dropdown-menu tx-13">
                                                                         <a class="dropdown-item"
-                                                                            href=" {{ url('edit_invoice') }}/{{ $invoice->id }}">تعديل
+                                                                            href=" {{ url('edit_invoices') }}/{{ $invoice->id }}">تعديل
                                                                             الفاتورة</a>
 
                                                                         <a class="dropdown-item" href="#" data-invoice_id="{{ $invoice->id }}"
