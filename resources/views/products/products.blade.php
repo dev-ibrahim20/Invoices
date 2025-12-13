@@ -68,7 +68,7 @@ Products List - Invoices Program
                 <div class="col-xl-12">
                     <div class="card mg-b-20">
                             <a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale" data-toggle="modal"
-                                href="#modaldemo8">Add Section</a>
+                                href="#modaldemo8">اضافة منتج</a>
                         <div class="card-header pb-0">
                             <div class="d-flex justify-content-between">
                                 <h4 class="card-title mg-b-0">Products Table</h4>
@@ -81,11 +81,11 @@ Products List - Invoices Program
                                     <thead>
                                         <tr>
                                             <th class="border-bottom-0">#</th>
-                                            <th class="border-bottom-0">product Name</th>
-                                            <th class="border-bottom-0">Section Name</th>
-                                            <th class="border-bottom-0">Description</th>
-                                            <th class="border-bottom-0">Status</th>
-                                            <th class="border-bottom-0">Due Date</th>
+                                            <th class="border-bottom-0">اسم المنتج  </th>
+                                            <th class="border-bottom-0">اسم القسم</th>
+                                            <th class="border-bottom-0">الوصف</th>
+                                            <th class="border-bottom-0">الحالة</th>
+                                            <th class="border-bottom-0">تاريخ الاستحقاق</th>
                                         </tr>
                                     </thead>
                                     <tbody>

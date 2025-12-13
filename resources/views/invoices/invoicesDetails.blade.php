@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    Invoices List - Invoices Program
+    Invoices Details - Invoices Program
 @stop
 @section('css')
     <!-- Internal Data table css -->
@@ -163,6 +163,7 @@
                                                             <th>نوع المنتج</th>
                                                             <th>القسم</th>
                                                             <th>حالة الدفع</th>
+                                                            <th>تاريخ الدفع</th>
                                                             <th>ملاحظات</th>
                                                             <th>تاريخ الاضافة </th>
                                                             <th>المستخدم</th>
@@ -190,6 +191,7 @@
                                                                             class="badge badge-pill badge-warning">{{ $x->status }}</span>
                                                                     </td>
                                                                 @endif
+                                                                <td>{{ $x->payment_date }}</td>
                                                                 <td>{{ $x->note }}</td>
                                                                 <td>{{ $x->created_at }}</td>
                                                                 <td>{{ $x->user }}</td>

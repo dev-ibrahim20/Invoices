@@ -20,8 +20,8 @@
                         class="avatar-status profile-status bg-green"></span>
                 </div>
                 <div class="user-info">
-                    <h4 class="font-weight-semibold mt-3 mb-0">{{ auth()->user()->name }}</h4>
-                    <span class="mb-0 text-muted">{{ auth()->user()->email }}</span>
+                    <h4 class="font-weight-semibold mt-3 mb-0">{{ auth()->user()->name ?? 'Admin' }}</h4>
+                    <span class="mb-0 text-muted">{{ auth()->user()->email ?? 'Admin' }}</span>
                 </div>
             </div>
         </div>
@@ -47,9 +47,9 @@
                     </svg><span class="side-menu__label">Invoice</span><i class="angle fe fe-chevron-down"></i></a>
                 <ul class="slide-menu">
                     <li><a class="slide-item" href="{{ url('/' . $page = 'invoices') }}">inovices List</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . $page = 'chart-flot') }}">inovices paid</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . $page = 'chart-chartjs') }}">inovices unpaid</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . $page = 'chart-echart') }}">inovices part paid</a></li>
+                    <li><a class="slide-item" href="{{ url('/' . $page = 'Invoices_Paid') }}">inovices paid</a></li>
+                    <li><a class="slide-item" href="{{ url('/' . $page = 'Invoices_Unpaid') }}">inovices unpaid</a></li>
+                    <li><a class="slide-item" href="{{ url('/' . $page = 'Invoices_Partial') }}">inovices part paid</a></li>
                 </ul>
             </li>
 

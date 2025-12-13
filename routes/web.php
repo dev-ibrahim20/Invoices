@@ -29,7 +29,13 @@ require __DIR__ . '/auth.php';
 Route::resource('invoices', InvoicesController::class);
 Route::get('/edit_invoices/{id}', [InvoicesController::class, 'edit']);
 Route::post('/edit_invoices/{id}', [InvoicesController::class, 'update']);
-
+Route::post('/archive', [InvoicesController::class, 'archive'])->name('invoices.archive');
+Route::get('/status_show/{id}', [InvoicesController::class, 'show'])->name('invoices.status_show');
+Route::post('/status_update/{id}', [InvoicesController::class, 'statusUpdate'])->name('invoices.status_update');
+// Invoices Status 
+Route::get('Invoices_Paid', [InvoicesController::class, 'PaidInvoices'])->name('invoices.PaidInvoices');
+Route::get('Invoices_Partial', [InvoicesController::class, 'PartialInvoices'])->name('invoices.PartialInvoices');
+Route::get('Invoices_Unpaid', [InvoicesController::class, 'UnpaidInvoices'])->name('invoices.UnpaidInvoices');
 
 Route::get('/section/{id}', [InvoicesController::class, 'getproducts']);
 

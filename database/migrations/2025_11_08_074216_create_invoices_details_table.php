@@ -21,6 +21,7 @@ class CreateInvoicesDetailsTable extends Migration
             $table->string('product', 50);
             $table->string('section', 999);
             $table->string('status', 50);
+            $table->date('payment_date')->nullable();
             $table->integer('value_status');
             $table->text('note')->nullable();
             $table->string('user', 300);

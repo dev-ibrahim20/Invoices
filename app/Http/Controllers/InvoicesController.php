@@ -9,8 +9,10 @@ use App\Models\products;
 use App\Models\sections;
 use App\Models\User;
 use Auth;
+use File;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Storage;
 
 class InvoicesController extends Controller
 {
@@ -98,7 +100,7 @@ class InvoicesController extends Controller
         }
 
         session()->flash('Add', 'تم اضافة الفاتورة بنجاح');
-        return back();
+        return redirect()->route('invoices.index');
     }
 
     /**
@@ -107,9 +109,10 @@ class InvoicesController extends Controller
      * @param  \App\Models\invoices  $invoices
      * @return \Illuminate\Http\Response
      */
-    public function show(invoices $invoices)
+    public function show($id)
     {
-        //
+        $invoices = invoices::where('id', $id)->first();
+        return view('invoices.status_show', compact('invoices'));
     }
 
     /**
@@ -140,15 +143,69 @@ class InvoicesController extends Controller
         return redirect()->route('invoices.index');
     }
 
+
+    public function statusUpdate(Request $request, $id)
+    {
+        $invoices = invoices::findOrFail($id);
+        if($request->status == 'مدفوعة'){
+            $invoices->update(['status' => $request->status, 'value_Status' => 1, 'payment_date' => $request->payment_date]);
+            invoices_details::create([
+            'id_Invoice' => $request->id,
+            'invoice_number' => $request->invoice_number,
+            'product' => $request->product,
+            'section' => $request->Section,
+            'status' => $request->status,
+            'value_status' => 1,
+            'payment_date' => $request->Payment_Date,
+            'note' => $request->note,
+            'user' => (Auth::user()->name),
+            ]);
+        }
+        elseif($request->status == 'مدفوعة جزئيا')
+        {
+            $invoices->update(['status' => $request->status, 'value_Status' => 3, 'payment_date' => $request->payment_date]);
+            invoices_details::create([
+            'id_Invoice' => $request->id,
+            'invoice_number' => $request->invoice_number,
+            'product' => $request->product,
+            'section' => $request->Section,
+            'status' => $request->status,
+            'value_status' => 3,
+            'payment_date' => $request->Payment_Date,
+            'note' => $request->note,
+            'user' => (Auth::user()->name),
+            ]);
+        }
+        session()->flash('edit', 'تم تعديل الفاتورة بنجاح');
+        return redirect()->route('invoices.index');
+    }
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\invoices  $invoices
      * @return \Illuminate\Http\Response
      */
-    public function destroy(invoices $invoices)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->invoice_id;
+        $invoices = invoices::where('id', $id)->first();
+        $details = invoice_attachments::where('invoice_id', $id)->first();
+        if(!empty($details->invoice_number)){
+        File::deleteDirectory(public_path('Attachments/' . $details->invoice_number));
+        }
+        $invoices->forceDelete();
+        session()->flash('delete_invoice', 'تم حذف الفاتورة بنجاح');
+        return redirect()->route('invoices.index');
+    }
+
+    public function archive(Request $request)
+    {
+        $id = $request->invoice_id;
+        $invoices = invoices::where('id', $id)->first();
+        $invoices->delete();
+        session()->flash('archive', 'تم ارشفة الفاتورة بنجاح');
+        return redirect()->route('invoices.index');
     }
 
 
@@ -156,5 +213,22 @@ class InvoicesController extends Controller
     {
         $products = products::where('section_id', $id)->pluck('product_name', 'id');
         return json_encode($products);
+    }
+
+    public function PaidInvoices()
+    {
+        $invoices = invoices::where('status', 'مدفوعة')->get();
+        return view('invoices.invoices_paid', compact('invoices'));
+    }
+
+    public function UnpaidInvoices()
+    {
+        $invoices = invoices::where('status', 'غير مدفوعة')->get();
+        return view('invoices.invoices_unpaid', compact('invoices'));
+    }
+    public function PartialInvoices()
+    {
+        $invoices = invoices::where('status', 'مدفوعة جزئيا')->get();
+        return view('invoices.invoices_partial', compact('invoices'));
     }
 }

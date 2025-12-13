@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\invoices;
 use App\Models\sections;
 use Illuminate\Http\Request;
 
@@ -14,8 +15,9 @@ class SectionsController extends Controller
      */
     public function index()
     {
+        $invoices = invoices::all();
         $sections = sections::all();
-        return view('sections.sections', compact('sections'));
+        return view('sections.sections', compact('sections', 'invoices'));
     }
 
     /**
