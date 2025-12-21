@@ -36,6 +36,16 @@ Route::post('/status_update/{id}', [InvoicesController::class, 'statusUpdate'])-
 Route::get('Invoices_Paid', [InvoicesController::class, 'PaidInvoices'])->name('invoices.PaidInvoices');
 Route::get('Invoices_Partial', [InvoicesController::class, 'PartialInvoices'])->name('invoices.PartialInvoices');
 Route::get('Invoices_Unpaid', [InvoicesController::class, 'UnpaidInvoices'])->name('invoices.UnpaidInvoices');
+// Invoices Archive
+Route::get('Invoices_Archive', [InvoicesController::class, 'ArchiveInvoices'])->name('invoices.ArchiveInvoices');
+// Invoices Restore
+Route::post('Invoices_Restore', [InvoicesController::class, 'RestoreInvoices'])->name('invoices.RestoreInvoices');
+// Invoices Archive Destory
+Route::delete('Invoices_Archive_Destory', [InvoicesController::class, 'ArchiveDestory'])->name('invoices.ArchiveDestory');
+// Print Invoices
+Route::get('Print_invoice/{id}', [InvoicesController::class, 'Print_invoices'])->name('invoices.Print_invoices');
+
+
 
 Route::get('/section/{id}', [InvoicesController::class, 'getproducts']);
 

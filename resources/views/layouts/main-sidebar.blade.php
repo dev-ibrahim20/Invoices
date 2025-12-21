@@ -50,6 +50,7 @@
                     <li><a class="slide-item" href="{{ url('/' . $page = 'Invoices_Paid') }}">inovices paid</a></li>
                     <li><a class="slide-item" href="{{ url('/' . $page = 'Invoices_Unpaid') }}">inovices unpaid</a></li>
                     <li><a class="slide-item" href="{{ url('/' . $page = 'Invoices_Partial') }}">inovices part paid</a></li>
+                    <li><a class="slide-item" href="{{ url('/' . $page = 'Invoices_Archive') }}">invoices archive</a></li>
                 </ul>
             </li>
 

@@ -180,6 +180,28 @@ class InvoicesController extends Controller
         return redirect()->route('invoices.index');
     }
 
+    public function PaidInvoices()
+    {
+        $invoices = invoices::where('status', 'مدفوعة')->get();
+        return view('invoices.invoices_paid', compact('invoices'));
+    }
+
+    public function UnpaidInvoices()
+    {
+        $invoices = invoices::where('status', 'غير مدفوعة')->get();
+        return view('invoices.invoices_unpaid', compact('invoices'));
+    }
+    public function PartialInvoices()
+    {
+        $invoices = invoices::where('status', 'مدفوعة جزئيا')->get();
+        return view('invoices.invoices_partial', compact('invoices'));
+    }
+    public function getproducts($id)
+    {
+        $products = products::where('section_id', $id)->pluck('product_name', 'id');
+        return json_encode($products);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -207,28 +229,35 @@ class InvoicesController extends Controller
         session()->flash('archive', 'تم ارشفة الفاتورة بنجاح');
         return redirect()->route('invoices.index');
     }
-
-
-    public function getproducts($id)
+    public function ArchiveInvoices()
     {
-        $products = products::where('section_id', $id)->pluck('product_name', 'id');
-        return json_encode($products);
+        $invoices = invoices::onlyTrashed()->get();
+        return view('invoices.invoices_archive', compact('invoices'));
     }
 
-    public function PaidInvoices()
+    public function RestoreInvoices(Request $request)
     {
-        $invoices = invoices::where('status', 'مدفوعة')->get();
-        return view('invoices.invoices_paid', compact('invoices'));
+        $rq = $request->invoice_id;
+        $invoices = invoices::onlyTrashed()->where('id', $rq);
+        $invoices->restore();
+        session()->flash('restore_invoice', 'تم استعادة الفاتورة بنجاح');
+        return redirect()->route('invoices.index');
     }
 
-    public function UnpaidInvoices()
+    public function ArchiveDestory(Request $request)
     {
-        $invoices = invoices::where('status', 'غير مدفوعة')->get();
-        return view('invoices.invoices_unpaid', compact('invoices'));
+        $rq = $request->invoice_id;
+        $invoices = invoices::onlyTrashed()->where('id', $rq);
+        $invoices->forceDelete();
+        session()->flash('delete_invoice', 'تم حذف الفاتورة بنجاح');
+        return redirect()->route('invoices.index');
     }
-    public function PartialInvoices()
+
+
+    public function Print_invoices($id)
     {
-        $invoices = invoices::where('status', 'مدفوعة جزئيا')->get();
-        return view('invoices.invoices_partial', compact('invoices'));
+        $invoices = invoices::where('id', $id)->first();
+        return view('invoices.Print_invoice', compact('invoices'));
     }
+
 }
