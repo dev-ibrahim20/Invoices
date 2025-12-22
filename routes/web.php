@@ -44,6 +44,8 @@ Route::post('Invoices_Restore', [InvoicesController::class, 'RestoreInvoices'])-
 Route::delete('Invoices_Archive_Destory', [InvoicesController::class, 'ArchiveDestory'])->name('invoices.ArchiveDestory');
 // Print Invoices
 Route::get('Print_invoice/{id}', [InvoicesController::class, 'Print_invoices'])->name('invoices.Print_invoices');
+// Export Invoices
+Route::get('export', [InvoicesController::class, 'export'])->name('invoices.export');
 
 
 

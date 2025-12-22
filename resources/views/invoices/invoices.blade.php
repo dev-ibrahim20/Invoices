@@ -95,6 +95,8 @@
                             </div>
                             <a href="invoices/create" class="modal-effect btn btn-md btn-primary" style="color:white"><i
                                     class="fas fa-plus"></i>&nbsp; Add Invoice</a>
+                            <a href="{{ route('invoices.export') }}" class="modal-effect btn btn-md btn-success" style="color:white"><i
+                                    class="fas fa-download"></i>&nbsp; Export Invoice</a>
                             <div class="card-body">
                                 <div class="table-responsive">
                             <table id="example" class="table key-buttons text-md-nowrap" data-page-length='50' style="text-align: center">
