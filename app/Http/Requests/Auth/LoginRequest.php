@@ -53,6 +53,15 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        // Check user status
+        $user = Auth::user();
+        if ($user && $user->status !== 'مفعل') {
+            Auth::logout();
+            throw ValidationException::withMessages([
+                'email' => 'حسابك غير مفعل. يرجى التواصل مع الإدارة للحصول على المساعدة.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 
