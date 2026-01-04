@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InvoiceAttachmentsController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\InvoicesDetailsController;
+use App\Http\Controllers\InvoicesReportController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SectionsController;
@@ -55,6 +56,10 @@ Route::middleware('auth')->group(function () {
     Route::get('Print_invoice/{id}', [InvoicesController::class, 'Print_invoices'])->name('invoices.Print_invoices');
     // Export Invoices
     Route::get('export', [InvoicesController::class, 'export'])->name('invoices.export');
+    // Invoices Report
+    Route::get('invoices_report', [InvoicesReportController::class, 'index'])->name('invoices.report');
+    // Search Invoices
+    Route::post('Search_invoices', [InvoicesReportController::class, 'search_invoices'])->name('Search_invoices');
 
 
 
