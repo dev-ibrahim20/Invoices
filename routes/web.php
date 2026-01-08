@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CustomersReportController;
 use App\Http\Controllers\InvoiceAttachmentsController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\InvoicesDetailsController;
@@ -60,6 +61,10 @@ Route::middleware('auth')->group(function () {
     Route::get('invoices_report', [InvoicesReportController::class, 'index'])->name('invoices.report');
     // Search Invoices
     Route::post('Search_invoices', [InvoicesReportController::class, 'search_invoices'])->name('Search_invoices');
+    // Customers Report
+    Route::get('customers_report', [CustomersReportController::class, 'index'])->name('customers.report');
+    // Search Customers
+    Route::post('search_customers', [CustomersReportController::class, 'search_customers'])->name('search_customers');
 
 
 

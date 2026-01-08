@@ -74,7 +74,7 @@
                     </svg><span class="side-menu__label">Reports</span><i class="angle fe fe-chevron-down"></i></a>
                 <ul class="slide-menu">
                     <li><a class="slide-item" href="{{ url('/' . $page = 'invoices_report') }}">Invoices Reports</a></li>
-                    <li><a class="slide-item" href="{{ url('/' . $page = 'clients_report') }}">Clients Reports</a></li>
+                    <li><a class="slide-item" href="{{ url('/' . $page = 'customers_report') }}">Customers Reports</a></li>
                 </ul>
             </li>
 
