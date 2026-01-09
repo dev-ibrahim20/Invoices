@@ -62,11 +62,11 @@ class InvoicesController extends Controller
             'discount' => $request->Discount,
             'value_vat' => $request->Value_VAT,
             'rate_vat' => $request->Rate_VAT,
-            'total' => $request->Total,
+            'total' => number_format($request->Total, 2),
             'status' => 'غير مدفوعة',
             'value_Status' => 2,
             'note' => $request->note,
-            'user' => (auth()->user()->name),
+            'user' => Auth::user()->name,
         ]);
 
         // Insert invoice details
@@ -79,7 +79,7 @@ class InvoicesController extends Controller
             'status' => 'غير مدفوعة',
             'value_status' => 2,
             'note' => $request->note,
-            'user' => (Auth::user()->name),
+            'user' => Auth::user()->name,
         ]);
 
 
@@ -143,6 +143,7 @@ class InvoicesController extends Controller
      */
     public function update(Request $request)
     {
+        $request->Total = number_format($request->Total, 2);
         $invoices = invoices::findOrFail($request->invoice_id);
         $invoices->update($request->all());
         session()->flash('edit', 'تم تعديل الفاتورة بنجاح');
