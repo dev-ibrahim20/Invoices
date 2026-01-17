@@ -61,7 +61,7 @@ Route::middleware('auth')->group(function () {
     // Search Customers
     Route::post('search_customers', [CustomersReportController::class, 'search_customers'])->name('search_customers');
 
-
+    Route::get('MarkAsRead_all', [InvoicesController::class, 'MarkAsRead_all'])->name('MarkAsRead_all');
 
     Route::get('/section/{id}', [InvoicesController::class, 'getproducts']);
 

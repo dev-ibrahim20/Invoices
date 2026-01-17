@@ -10,6 +10,7 @@ use App\Models\products;
 use App\Models\sections;
 use App\Models\User;
 use App\Notifications\AddInvoice;
+use App\Notifications\NewInvoice;
 use Auth;
 use File;
 use Illuminate\Http\Request;
@@ -62,7 +63,7 @@ class InvoicesController extends Controller
             'discount' => $request->Discount,
             'value_vat' => $request->Value_VAT,
             'rate_vat' => $request->Rate_VAT,
-            'total' => number_format($request->Total, 2),
+            'total' => $request->Total,
             'status' => 'غير مدفوعة',
             'value_Status' => 2,
             'note' => $request->note,
@@ -102,8 +103,16 @@ class InvoicesController extends Controller
             $request->pic->move(public_path('Attachments/' . $invoice_number), $imageName);
         }
 
-        $user = User::first();
-        Notification::send($user, new AddInvoice($invoice_id));
+        // $user = User::first();
+        // Notification::send($user, new AddInvoice($invoice_id));
+
+
+
+
+        $user = User::role('owner')->get();
+        $invoices = invoices::latest()->first();
+        Notification::send($user, new NewInvoice($invoices));
+
 
         session()->flash('Add', 'تم اضافة الفاتورة بنجاح');
         return redirect()->route('invoices.index');
@@ -271,6 +280,17 @@ class InvoicesController extends Controller
     public function export()
     {
         return Excel::download(new InvoicesExport, 'invoices.xlsx');
+    }
+
+
+    public function MarkAsRead_all()
+    {
+        $userUnreadNotification = auth()->user()->unreadNotifications;
+        if($userUnreadNotification)
+        {
+            $userUnreadNotification->markAsRead();
+            return back();
+        }
     }
 
 }
