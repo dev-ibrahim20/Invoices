@@ -60,7 +60,7 @@
 													$AllInvoices = \App\Models\Invoices::count();
 													$totalInvoices = \App\Models\Invoices::count();
 													$percentage = $totalInvoices > 0 ? ($AllInvoices / $totalInvoices) * 100 : 0;
-													echo $percentage . '%';
+													echo round($percentage) . '%';
 												?>
 											</span>
 										</span>
@@ -91,7 +91,7 @@
 													$paidInvoices = \App\Models\Invoices::where('value_Status', 2)->count();
 													$totalInvoices = \App\Models\Invoices::count();
 													$percentage = $totalInvoices > 0 ? ($paidInvoices / $totalInvoices) * 100 : 0;
-													echo$percentage . '%';
+													echo round($percentage) . '%';
 												?>
 											</span>
 										</span>
@@ -122,7 +122,7 @@
 													$paidInvoices = \App\Models\Invoices::where('value_Status', 1)->count();
 													$totalInvoices = \App\Models\Invoices::count();
 													$percentage = $totalInvoices > 0 ? ($paidInvoices / $totalInvoices) * 100 : 0;
-													echo $percentage . '%';
+													echo round($percentage) . '%';
 												?>
 											</span>
 										</span>
@@ -151,7 +151,7 @@
 													$paidInvoices = \App\Models\Invoices::where('value_Status', 3)->count();
 													$totalInvoices = \App\Models\Invoices::count();
 													$percentage = $totalInvoices > 0 ? ($paidInvoices / $totalInvoices) * 100 : 0;
-													echo $percentage . '%';
+													echo round($percentage) . '%';
 												?>
 											</span>
 										</span>
